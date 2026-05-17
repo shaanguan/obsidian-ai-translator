@@ -1,0 +1,10 @@
+{
+  "id": "ai-translator",
+  "name": "AI Translator",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Translate selected text or whole notes with Google AI Studio while preserving Markdown formatting.",
+  "author": "",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}

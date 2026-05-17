@@ -1,0 +1,18 @@
+.ai-translator-ribbon-loading {
+  color: var(--interactive-accent);
+  opacity: 1;
+}
+
+.ai-translator-ribbon-loading svg {
+  animation: ai-translator-spin 1s linear infinite;
+}
+
+@keyframes ai-translator-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

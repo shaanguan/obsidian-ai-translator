@@ -1,0 +1,25 @@
+{
+  "name": "obsidian-ai-translator",
+  "version": "0.1.0",
+  "description": "Obsidian plugin for AI-powered markdown-preserving translation.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "translation",
+    "google-ai-studio",
+    "gemini"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "latest",
+    "builtin-modules": "latest",
+    "esbuild": "latest",
+    "obsidian": "latest",
+    "typescript": "latest"
+  }
+}
