@@ -1,31 +1,117 @@
-# AI Translator
+# AI Translator for Obsidian
 
-一个 Obsidian 翻译插件，支持 Google AI Studio / Gemini API 和 OpenAI 兼容 API。
+AI Translator is an Obsidian plugin for translating notes while keeping Markdown structure intact. It can translate the current note or selected text into a new note, so your original writing is never overwritten.
 
-## 功能
+The plugin supports Google AI Studio / Gemini and OpenAI-compatible chat completion APIs.
 
-- 支持将选中内容翻译到新笔记，不覆盖原文。
-- 支持将当前笔记全文翻译到新笔记，不覆盖原文。
-- 支持编辑器右键菜单翻译选中内容或当前笔记到新笔记。
-- 支持左侧 Ribbon 按钮一键翻译当前笔记到新笔记。
-- 翻译期间会显示正在翻译提示，并让 Ribbon 图标进入 loading 状态。
-- 默认开启流式输出，会先创建新笔记，再边翻译边写入内容。
-- 默认目标语言为中文；源语言和目标语言都支持下拉选择，并提供自动判断。
-- 默认按官方 API ID `gemini-3-flash-preview`、`gemini-3.1-pro-preview`、`gemini-3.1-flash-lite` 的顺序尝试；额度、限流、模型不可用或服务不可用时会降级到下一个模型。
-- 支持 OpenAI 兼容 API，可配置 Base URL、API Key，并手动填写模型名称。
-- 支持让模型自动判断源语言。
-- 翻译前会保护 Markdown 中不应被翻译的内容，包括 frontmatter、代码块、行内代码、Markdown 链接、图片、Obsidian wikilink、URL、HTML、数学公式、标签、脚注标记和引用块。
-- 已预留翻译服务 Provider 字段，后续可扩展到其他模型服务。
+## Features
 
-## 使用
+- Translate the current note into a new note.
+- Translate selected text into a new note.
+- Keep the original note unchanged.
+- Use the left ribbon button, editor context menu, or command palette.
+- Stream translation output into the new note when the provider supports it.
+- Choose source and target languages from presets, including auto-detection.
+- Default target language is Chinese.
+- Protect Markdown syntax and Obsidian-specific content before sending text to the model.
+- Support Google AI Studio models with automatic fallback.
+- Support OpenAI-compatible APIs with custom Base URL, API Key, and model name.
 
-1. 运行 `npm install`。
-2. 运行 `npm run build`。
-3. 将 `manifest.json`、`main.js`、`styles.css` 复制到 Obsidian vault 的 `.obsidian/plugins/ai-translator/` 目录。
-4. 在 Obsidian 中启用插件，并在插件设置里选择翻译服务、填写对应 API Key。
-5. 使用命令面板、编辑器右键菜单或左侧 Ribbon 按钮执行翻译。
+## Markdown Protection
 
-## 开发
+Before translation, the plugin protects content that should not be rewritten by the model, including:
 
-- `npm run dev`：监听构建。
-- `npm run build`：类型检查并生产构建。
+- YAML frontmatter
+- Code blocks and inline code
+- Markdown links and images
+- Obsidian wikilinks and embedded files
+- URLs and email links
+- HTML tags and comments
+- Math blocks and inline math
+- Tags and footnote markers
+- Blockquotes, when enabled in settings
+
+The goal is that only the natural-language prose changes, while links, images, syntax, spacing, lists, headings, and note structure remain the same.
+
+## Providers
+
+### Google AI Studio
+
+Use a Google AI Studio API key. The default model order is:
+
+1. `gemini-3-flash-preview`
+2. `gemini-3.1-pro-preview`
+3. `gemini-3.1-flash-lite`
+
+The selected model is tried first. Other preset Google models are used as fallback when the selected model is rate-limited, unavailable, or out of quota.
+
+### OpenAI Compatible API
+
+Use any provider that supports the OpenAI Chat Completions API shape.
+
+Configure:
+
+- Base URL, for example `https://api.openai.com/v1` or `https://openrouter.ai/api/v1`
+- API Key
+- Model name, for example `gpt-4o-mini`, `deepseek-chat`, or `moonshot-v1-8k`
+
+Model names are entered manually because each provider uses different names.
+
+## Usage
+
+1. Open Obsidian settings.
+2. Enable AI Translator.
+3. Open the plugin settings.
+4. Choose a provider in `模型`.
+5. Fill in the API settings for that provider.
+6. Choose source language and target language.
+7. Run translation from one of these entry points:
+   - Ribbon language icon: translate current note.
+   - Editor right-click menu: translate selection or current note.
+   - Command palette: `Translate selection to new note` or `Translate current note to new note`.
+
+Translated output is created as a new note in the same folder as the source note.
+
+## Manual Installation
+
+1. Download or build the plugin files.
+2. Create this folder in your vault:
+
+```text
+.obsidian/plugins/ai-translator/
+```
+
+3. Copy these files into that folder:
+
+```text
+manifest.json
+main.js
+styles.css
+```
+
+4. Restart Obsidian.
+5. Enable `AI Translator` in Community plugins.
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run a production build:
+
+```bash
+npm run build
+```
+
+Run a watch build while developing:
+
+```bash
+npm run dev
+```
+
+## Privacy
+
+API keys are stored locally in Obsidian plugin data. Note content selected for translation is sent to the configured model provider. Review your provider's privacy policy before translating sensitive notes.
